@@ -7,14 +7,15 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
-public class TopicActivity extends Activity implements OverviewFragment.QuizFragmentListener {
+public class TopicActivity extends Activity implements OverviewFragment.QuizFragmentListener, AnswerFragment.QuizFragmentListener {
 
     private final String TAG = "quizdroid";
     String[] descriptionArray;
     String[] questionAmountArray;
     String[] answers;
-    int questionAmount;
-    int currentQuestion = 1;
+    private int questionAmount;
+    private int currentQuestion = 1;
+    private int correct = 0;
     String topic;
 
 
@@ -38,7 +39,6 @@ public class TopicActivity extends Activity implements OverviewFragment.QuizFrag
         //Create initial bundle with information for the overview fragment
         Bundle overviewBundle = new Bundle();
         overviewBundle.putString("description", description);
-        overviewBundle.putInt("position", position);
         overviewBundle.putString("topic", topic);
 
         //Set current fragment to the overview fragment
@@ -47,18 +47,23 @@ public class TopicActivity extends Activity implements OverviewFragment.QuizFrag
         getFragmentManager().beginTransaction().add(R.id.frag_container, of).commit();
     }
 
-    public void askQuestion() {
+    public void askQuestion(boolean answerCorrect) {
+        if(answerCorrect) {
+            correct++;
+        }
         QuestionFragment qf = new QuestionFragment();
         Bundle questionBundle = new Bundle();
         questionBundle.putString("topic", topic);
         questionBundle.putInt("currentQuestion", currentQuestion);
         questionBundle.putInt("questionAmount", questionAmount);
-        questionBundle.putStringArray("answers", answers);
+        questionBundle.putInt("answerPos", Integer.valueOf(answers[currentQuestion - 1]));
+        questionBundle.putInt("correct", correct);
         qf.setArguments(questionBundle);
         FragmentTransaction fragMan = getFragmentManager().beginTransaction();
         fragMan.replace(R.id.frag_container, qf);
         fragMan.addToBackStack(null);
         fragMan.commit();
+        currentQuestion++;
     }
 
 //    public void askQuestion() {

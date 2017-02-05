@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton"
             android:layout_weight="1"
-            android:onClick="onRadioClick"
             android:tag="1" />
 
         <RadioButton
@@ -31,7 +30,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton2"
             android:layout_weight="1"
-            android:onClick="onRadioClick"
             android:tag="2" />
 
         <RadioButton
@@ -39,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton3"
-            android:onClick="onRadioClick"
             android:layout_weight="1"
             android:tag="3"/>
 
@@ -48,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton4"
-            android:onClick="onRadioClick"
             android:layout_weight="1"
             android:tag="4"/>
 
@@ -63,13 +59,12 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Button"
+        android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp"
-        android:id="@+id/submit"
-        android:visibility="invisible" />
+        android:id="@+id/submit" />
 
 </RelativeLayout>

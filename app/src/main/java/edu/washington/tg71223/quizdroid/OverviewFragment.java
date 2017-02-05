@@ -21,7 +21,7 @@ public class OverviewFragment extends Fragment {
     QuizFragmentListener mCallback;
 
     public interface QuizFragmentListener {
-        public void askQuestion();
+        public void askQuestion(boolean answerCorrect);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class OverviewFragment extends Fragment {
             mCallback = (QuizFragmentListener) getActivity();
             Log.i("@strings/app_tag", "callback created: " + mCallback);
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OverviewFragmentListener");
+            throw new ClassCastException(context.toString() + " must implement QuizFragmentListener");
         }
     }
 
@@ -51,7 +51,7 @@ public class OverviewFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Log.i("@string/app_tag", "Button is working");
-                        mCallback.askQuestion();
+                        mCallback.askQuestion(false);
                     }
                 }
         );
