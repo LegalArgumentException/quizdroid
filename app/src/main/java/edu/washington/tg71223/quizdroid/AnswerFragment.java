@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 import edu.washington.tg71223.quizdroid.R;
 
 /**
@@ -55,18 +57,28 @@ public class AnswerFragment extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_answer, container, false);
+        QuizApp quizApp = (QuizApp) getActivity().getApplication();
 
+        // Get arguments
         currentQuestion = getArguments().getInt("currentQuestion");
         questionAmount = getArguments().getInt("questionAmount");
         int answerPos = getArguments().getInt("answerPos");
         int chosenPos = getArguments().getInt("chosenPos");
         int correct = getArguments().getInt("correct");
+        String topic = getArguments().getString("topic");
+        Log.i("QuizApp", "The topic is: " + topic);
+        Topic currentTopic = quizApp.getRepository().getTopic(topic);
+        Quiz currentQuiz = currentTopic.getQuiz(currentQuestion);
+        List<String> questionList = currentQuiz.getQuestions();
+
+        // Check to see if answer is correct
         answerCorrect = (answerPos == chosenPos);
         if(answerCorrect) {
             correct++;
         }
-        Log.i("AnswerFragment", String.valueOf(answerPos));
 
+
+        // Takes care of logic of submit button depending on if it's the final question or not
         Button button = (Button) view.findViewById(R.id.nextQuestionButton);
         if(currentQuestion == questionAmount) {
             button.setText("Finish");
@@ -85,6 +97,7 @@ public class AnswerFragment extends Fragment {
             });
         }
 
+        // Sets text for the question info and current score
         TextView questionInfo = (TextView) view.findViewById(R.id.questionInfo);
         questionInfo.setText("You are currently on question: " + currentQuestion + " of " + questionAmount + " and your answer was : Answer #" + chosenPos);
         TextView currentScore = (TextView) view.findViewById(R.id.currentScore);
@@ -97,11 +110,11 @@ public class AnswerFragment extends Fragment {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     5
             ));
+
+            option.setText(questionList.get(i - 1));
             if(i == answerPos) {
-                option.setText(i + ".) Correct choice Placeholder");
                 option.setBackgroundColor(getResources().getColor(R.color.colorCorrect));
             } else {
-                option.setText(i + ".) Incorrect Choice Placeholder");
                 option.setBackgroundColor(getResources().getColor(R.color.colorIncorrect));
             }
             answerLayout.addView(option);

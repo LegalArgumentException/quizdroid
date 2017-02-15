@@ -21,7 +21,7 @@ public class OverviewFragment extends Fragment {
     QuizFragmentListener mCallback;
 
     public interface QuizFragmentListener {
-        public void askQuestion(boolean answerCorrect);
+        void askQuestion(boolean answerCorrect);
     }
 
     @Override
