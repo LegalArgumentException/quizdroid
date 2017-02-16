@@ -1,6 +1,8 @@
 package edu.washington.tg71223.quizdroid;
 
 import android.app.Application;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -8,6 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +25,7 @@ import java.util.List;
 public class QuizApp extends Application {
 
     private static TopicRepository instance = new TopicRepository(); // Make sure that's correctly for singleton
+    static QuizApp obj;
 
     private String data = "[\n" +
             "   {\n" +
@@ -90,15 +98,100 @@ public class QuizApp extends Application {
             "   }\n" +
             "]";
 
+    String data1 = "[\n" +
+            "    { \"title\":\"Music\",\n" +
+            "      \"desc\":\"For the mucically inclined\",\n" +
+            "      \"questions\":[\n" +
+            "        {\n" +
+            "          \"text\":\"What is a paradiddle?\",\n" +
+            "          \"answer\":\"2\",\n" +
+            "          \"answers\":[\n" +
+            "            \"When a trumpet player comes behind someone and blows the horn SUPER loud\",\n" +
+            "            \"The best goddamn drum rudiment in the business\",\n" +
+            "            \"A band that hasn't yet been discovered\",\n" +
+            "            \"Two paragliders\"\n" +
+            "          ]\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"text\":\"Who started the fire?\",\n" +
+            "          \"answer\":\"3\",\n" +
+            "          \"answers\":[\n" +
+            "            \"An arsonist\",\n" +
+            "            \"Not I said the mouse\",\n" +
+            "            \"We didn't - it's been always burning since the world's been turning\",\n" +
+            "            \"Wait, is this Elton John?\"\n" +
+            "          ]\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    { \"title\":\"Pizza\", \"desc\": \"Are you Top of the Toppings?\",\n" +
+            "      \"questions\":[\n" +
+            "        {\n" +
+            "          \"text\":\"Which is the acceptable size to eat alone in a brief lapse of judgement\",\n" +
+            "          \"answer\":\"4\",\n" +
+            "          \"answers\":[\n" +
+            "            \"Small\",\n" +
+            "            \"Medium\",\n" +
+            "            \"Large\",\n" +
+            "            \"Raw Dough\"\n" +
+            "          ]\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"text\":\"What is pizza called in Seattle?\",\n" +
+            "          \"answer\":\"2\",\n" +
+            "          \"answers\":[\n" +
+            "            \"Hipster Disc\",\n" +
+            "            \"Do you have gluten-free oregano?\",\n" +
+            "            \"Pizza\",\n" +
+            "            \"Freshman event attendance insurance\"\n" +
+            "          ]\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"text\":\"What's my favorite pizza?\",\n" +
+            "          \"answer\":\"2\",\n" +
+            "          \"answers\":[\n" +
+            "            \"Peperoni and bacon\",\n" +
+            "            \"Chicken and white sauce\",\n" +
+            "            \"Memes and dreams\",\n" +
+            "            \"Sandwich\"\n" +
+            "          ]\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    { \"title\":\"Free Answer\", \"desc\":\"The answer is 4\",\n" +
+            "      \"questions\":[\n" +
+            "         {\n" +
+            "           \"text\":\"What is the answer?\",\n" +
+            "           \"answer\":\"1\",\n" +
+            "           \"answers\":[\n" +
+            "             \"4\",\n" +
+            "             \"Four\",\n" +
+            "             \"Fore\",\n" +
+            "             \"sqrt(sixteen)\"\n" +
+            "           ]\n" +
+            "         }\n" +
+            "      ]\n" +
+            "   }\n" +
+            "]";
+
     public static TopicRepository getRepository() {
         return instance;
     }
 
-    public QuizApp() throws JSONException {
+    public QuizApp() {
         Log.i("QuizApp", "QuizApp is being loaded and ran");
+    }
 
+    public void onCreate() {
+        super.onCreate();
+        obj = this;
+//        try {
+//            Log.i("QuizApp", "Data: " + getDataFromFile());
+//        } catch (IOException e) {
+//            Log.i("QuizApp", "IOException is: " + e.toString());
+//        }
         try {
-            final JSONArray quizData = new JSONArray(data);
+            final JSONArray quizData = new JSONArray(data1);
             final int n = quizData.length();
             for (int i = 0; i < n; i++) {
                 JSONObject obj = quizData.getJSONObject(i);
@@ -133,6 +226,19 @@ public class QuizApp extends Application {
         instance.addTopic(topic);
 
     }
+
+//    private String getDataFromFile() throws IOException {
+//        Log.i("QuizApp", getFilesDir().getAbsolutePath());
+//        FileInputStream fis = openFileInput("/questions.json");
+//        InputStreamReader isr = new InputStreamReader(fis);
+//        BufferedReader bufferedReader = new BufferedReader(isr);
+//        StringBuilder sb = new StringBuilder();
+//        String line;
+//        while ((line = bufferedReader.readLine()) != null) {
+//            sb.append(line);
+//        }
+//        return sb.toString();
+//    }
 
 
 }

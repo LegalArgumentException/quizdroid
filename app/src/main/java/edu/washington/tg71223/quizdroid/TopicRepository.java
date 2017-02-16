@@ -60,4 +60,8 @@ public class TopicRepository {
         return null;
     }
 
+    public void clearTopics() {
+        topics = new ArrayList<Topic>();
+    }
+
 }
