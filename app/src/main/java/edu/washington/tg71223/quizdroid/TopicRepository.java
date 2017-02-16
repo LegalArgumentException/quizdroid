@@ -37,7 +37,7 @@ public class TopicRepository {
         for(Topic topic : topics) {
             topicArray[index] = topic.getName();
             index++;
-            Log.i("QuizApp", "Topic Amount: " + topics.size() + ", Index: " + index + ", Topic Name: " + topic.getName());
+            //Log.i("QuizApp", "Topic Amount: " + topics.size() + ", Index: " + index + ", Topic Name: " + topic.getName());
         }
         return topicArray;
     }

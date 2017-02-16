@@ -38,7 +38,7 @@ public class MainListActivity extends AppCompatActivity {
                 int itemPosition = position;
                 TextView textView = (TextView) view;
                 String itemValue = (String) textView.getText();
-                Log.i("@string/app_tag",itemValue + " button has been clicked");
+                //Log.i("@string/app_tag",itemValue + " button has been clicked");
 
                 Intent i = new Intent(MainListActivity.this, TopicActivity.class);
                 i.putExtra("Position", position);

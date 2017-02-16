@@ -11,12 +11,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.Environment.getDataDirectory;
 
 /**
  * Created by Tanner on 2/13/2017.
@@ -184,14 +187,19 @@ public class QuizApp extends Application {
 
     public void onCreate() {
         super.onCreate();
-        obj = this;
-//        try {
-//            Log.i("QuizApp", "Data: " + getDataFromFile());
-//        } catch (IOException e) {
-//            Log.i("QuizApp", "IOException is: " + e.toString());
-//        }
+
         try {
-            final JSONArray quizData = new JSONArray(data1);
+            Log.i("QuizApp", "Data: " + getDataFromFile());
+        } catch (IOException e) {
+            Log.i("QuizApp", "IOException is: " + e.toString());
+        }
+        try {
+            data = getDataFromFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            final JSONArray quizData = new JSONArray(data);
             final int n = quizData.length();
             for (int i = 0; i < n; i++) {
                 JSONObject obj = quizData.getJSONObject(i);
@@ -220,25 +228,25 @@ public class QuizApp extends Application {
             }
             Quiz questions = new Quiz(quizString, quizArray, quizAnswer);
             quizzes.add(questions);
-            Log.i("QuizApp", "Text: " + quizString + ", Answer: " + quizAnswer + ", Amount of Answers: " + quizArray.size());
+            //Log.i("QuizApp", "Text: " + quizString + ", Answer: " + quizAnswer + ", Amount of Answers: " + quizArray.size());
         }
         topic = new Topic(title, "", desc, quizzes);
         instance.addTopic(topic);
 
     }
 
-//    private String getDataFromFile() throws IOException {
-//        Log.i("QuizApp", getFilesDir().getAbsolutePath());
-//        FileInputStream fis = openFileInput("/questions.json");
-//        InputStreamReader isr = new InputStreamReader(fis);
-//        BufferedReader bufferedReader = new BufferedReader(isr);
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        while ((line = bufferedReader.readLine()) != null) {
-//            sb.append(line);
-//        }
-//        return sb.toString();
-//    }
+    private String getDataFromFile() throws IOException {
+        FileInputStream fis = openFileInput("questions.json");
+        Log.i("QuizApp", fis.toString());
+        InputStreamReader isr = new InputStreamReader(fis);
+        BufferedReader bufferedReader = new BufferedReader(isr);
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+        }
+        return sb.toString();
+    }
 
 
 }
